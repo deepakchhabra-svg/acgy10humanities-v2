@@ -162,14 +162,14 @@ export default function Home() {
     <main className="wrap">
       <div className="hero">
         <div>
-          <h1>Year 10 Geography Exam Coach v47</h1>
-          <div className="small">Learn. Read Q&amp;A. Practice. Review. Parent View.</div>
+          <h1>Geography Exam Coach</h1>
+          <div className="small">Year 10 Humanities · Focused revision for concepts, case studies and exam answers.</div>
         </div>
-        <div>{isLoggedIn ? 'Logged in' : 'Teacher-focus first'}</div>
+        {isLoggedIn && <div className="chip">Progress saved</div>}
       </div>
 
       <div className="card">
-        <h2>Login</h2>
+        <h2>{isLoggedIn ? 'Account' : 'Sign in'}</h2>
         {isLoggedIn ? (
           <>
             <div className="small">Logged in · Progress saved online</div>
