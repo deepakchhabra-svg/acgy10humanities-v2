@@ -27,20 +27,32 @@ OPENAI_API_KEY=YOUR_OPENAI_API_KEY
 Run SQL migration in Supabase SQL editor:
 - `supabase/migrations/202604280001_init_v47.sql`
 
-## 4) Run locally
+## 4) Student account creation (Supabase)
+Use one of these simple options:
+1. **Teacher-managed (recommended):** Supabase Dashboard → Authentication → Users → Invite user.
+2. **Self sign-up:** enable Email sign-ups in Supabase Auth settings and let students sign up externally.
+
+This app currently uses simple login UI and assumes accounts are created in Supabase first.
+
+## 5) Run locally
 ```bash
 npm run dev
 ```
 
 Open `http://localhost:3000`.
 
-## 5) Netlify deploy
+## 6) Netlify deploy
 1. Push repo to Git provider.
 2. Connect project in Netlify.
 3. Add env vars listed above in Netlify UI.
-4. Keep build command: `npm run build`.
-5. Keep Next.js Netlify plugin from `netlify.toml`.
+4. Build command: `npm run build`.
+5. Publish directory: `.next`.
+6. Keep plugin `@netlify/plugin-nextjs` from `netlify.toml`.
+
+## Security notes
+- No OpenAI API key is exposed in browser code.
+- `/api/attempts` validates the Supabase access token and always uses authenticated user id on the server.
+- The server never trusts `user_id` sent by browser payloads.
 
 ## Notes
-- No API key is exposed in browser code.
 - Question bank comes from extracted v46 baseline content.

@@ -11,6 +11,7 @@ export type FeedbackResult = {
 
 export type Attempt = {
   id: string;
+  user_id?: string;
   qid: string;
   topic: string;
   question: string;

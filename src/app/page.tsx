@@ -8,15 +8,22 @@ import { getSummary } from '@/lib/stats';
 import { loadLocalAttempts, saveLocalAttempt } from '@/lib/storage';
 
 type Tab = 'learn' | 'read' | 'practice' | 'review' | 'parent';
+type AutoQuestion = {
+  id: string;
+  topic: string;
+  q: string;
+  model: string;
+  marks: number;
+  checks: string[][];
+};
 
-const AUTO = QUESTION_BANK.auto as any[];
+const AUTO = QUESTION_BANK.auto as AutoQuestion[];
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>('learn');
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState('');
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [idx, setIdx] = useState(0);
   const [answer, setAnswer] = useState('');
@@ -29,19 +36,22 @@ export default function Home() {
   useEffect(() => {
     const local = loadLocalAttempts();
     setAttempts(local);
+
     const supabase = getSupabaseBrowserClient();
     if (!supabase) return;
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
-        setIsLoggedIn(true);
-        setUserId(data.session.user.id);
-        loadRemoteAttempts(data.session.user.id);
-      }
+
+    supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session) return;
+      setIsLoggedIn(true);
+      await loadRemoteAttempts(data.session.access_token);
     });
   }, []);
 
-  async function loadRemoteAttempts(uid: string) {
-    const res = await fetch(`/api/attempts?user_id=${uid}`, { method: 'GET' });
+  async function loadRemoteAttempts(accessToken: string) {
+    const res = await fetch('/api/attempts', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
     if (!res.ok) return;
     const data = (await res.json()) as Attempt[];
     setAttempts(data);
@@ -50,14 +60,19 @@ export default function Home() {
   async function login() {
     const supabase = getSupabaseBrowserClient();
     if (!supabase) return;
-    const { error } = await supabase.auth.signInWithPassword({ email: userEmail, password });
-    if (!error) {
-      const { data } = await supabase.auth.getSession();
-      const uid = data.session?.user.id ?? "";
-      setIsLoggedIn(true);
-      setUserId(uid);
-      await loadRemoteAttempts(uid);
-    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: userEmail,
+      password
+    });
+    if (error) return;
+
+    const { data } = await supabase.auth.getSession();
+    const accessToken = data.session?.access_token;
+    if (!accessToken) return;
+
+    setIsLoggedIn(true);
+    await loadRemoteAttempts(accessToken);
   }
 
   async function checkAnswer() {
@@ -78,9 +93,8 @@ export default function Home() {
       const data = (await res.json()) as FeedbackResult;
       setFeedback(data);
 
-      const attempt: Attempt & { user_id?: string } = {
+      const attempt: Attempt = {
         id: crypto.randomUUID(),
-        user_id: userId,
         qid: question.id,
         topic: question.topic,
         question: question.q,
@@ -91,14 +105,24 @@ export default function Home() {
       };
 
       if (isLoggedIn) {
-        await fetch('/api/attempts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(attempt)
-        });
+        const supabase = getSupabaseBrowserClient();
+        const session = await supabase?.auth.getSession();
+        const accessToken = session?.data.session?.access_token;
+
+        if (accessToken) {
+          await fetch('/api/attempts', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify(attempt)
+          });
+        }
       } else {
         saveLocalAttempt(attempt);
       }
+
       setAttempts((prev) => [attempt, ...prev].slice(0, 500));
     } finally {
       setBusy(false);
@@ -121,11 +145,14 @@ export default function Home() {
         <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button className="btn dark" onClick={login}>Login</button>
         <div className="small">If you stay logged out, progress is saved to localStorage on this device.</div>
+        <div className="small">Account creation: teacher can create student users in Supabase Auth (Dashboard → Authentication → Users → Invite user).</div>
       </div>
 
       <div className="nav">
         {(['learn', 'read', 'practice', 'review', 'parent'] as Tab[]).map((t) => (
-          <button key={t} className={`btn ${tab === t ? 'dark' : ''}`} onClick={() => setTab(t)}>{t[0].toUpperCase() + t.slice(1)}</button>
+          <button key={t} className={`btn ${tab === t ? 'dark' : ''}`} onClick={() => setTab(t)}>
+            {t[0].toUpperCase() + t.slice(1)}
+          </button>
         ))}
       </div>
 
@@ -133,10 +160,10 @@ export default function Home() {
         <div className="card">
           <h2>Learn</h2>
           <div className="grid g2">
-            {(LEARN_PACK as any[]).map((item) => (
+            {(LEARN_PACK as { topic: string; must: string[] }[]).map((item) => (
               <div className="neutral" key={item.topic}>
                 <b>{item.topic}</b>
-                <ul>{item.must.map((m: string) => <li key={m}>{m}</li>)}</ul>
+                <ul>{item.must.map((m) => <li key={m}>{m}</li>)}</ul>
               </div>
             ))}
           </div>
