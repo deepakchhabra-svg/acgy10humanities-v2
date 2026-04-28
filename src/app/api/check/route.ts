@@ -41,7 +41,7 @@ Student answer: ${body.student_answer}`;
     });
 
     const parsed = JSON.parse(result.output_text);
-    return NextResponse.json(parsed);
+    return NextResponse.json({ ...parsed, fallback: false });
   } catch {
     return NextResponse.json({
       score: 0,
@@ -49,7 +49,8 @@ Student answer: ${body.student_answer}`;
       got: ['Nice effort.'],
       add: ['Try to include one clear case-study detail.'],
       better_answer: 'Add one cause and one effect, then link to development.',
-      confidence: 'revise'
+      confidence: 'revise',
+      fallback: true
     });
   }
 }

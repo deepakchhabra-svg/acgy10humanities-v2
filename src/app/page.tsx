@@ -29,6 +29,8 @@ export default function Home() {
   const [answer, setAnswer] = useState('');
   const [feedback, setFeedback] = useState<FeedbackResult | null>(null);
   const [busy, setBusy] = useState(false);
+  const [loginError, setLoginError] = useState('');
+  const [checkError, setCheckError] = useState('');
 
   const question = AUTO[idx % AUTO.length];
   const summary = useMemo(() => getSummary(attempts), [attempts]);
@@ -65,17 +67,34 @@ export default function Home() {
       email: userEmail,
       password
     });
-    if (error) return;
+    if (error) {
+      setLoginError('Login failed. Please check email and password.');
+      return;
+    }
 
     const { data } = await supabase.auth.getSession();
     const accessToken = data.session?.access_token;
     if (!accessToken) return;
 
     setIsLoggedIn(true);
+    setLoginError('');
     await loadRemoteAttempts(accessToken);
   }
 
+  async function logout() {
+    const supabase = getSupabaseBrowserClient();
+    await supabase?.auth.signOut();
+    setIsLoggedIn(false);
+  }
+
   async function checkAnswer() {
+    const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
+    if (!answer.trim() || wordCount < 5) {
+      setCheckError('Write a little more before checking.');
+      return;
+    }
+
+    setCheckError('');
     setBusy(true);
     try {
       const res = await fetch('/api/check', {
@@ -110,7 +129,7 @@ export default function Home() {
         const accessToken = session?.data.session?.access_token;
 
         if (accessToken) {
-          await fetch('/api/attempts', {
+          const saveRes = await fetch('/api/attempts', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -118,6 +137,11 @@ export default function Home() {
             },
             body: JSON.stringify(attempt)
           });
+          if (!saveRes.ok) {
+            setCheckError('Checked, but progress was not saved online.');
+          }
+        } else {
+          setCheckError('Checked, but progress was not saved online.');
         }
       } else {
         saveLocalAttempt(attempt);
@@ -141,11 +165,21 @@ export default function Home() {
 
       <div className="card">
         <h2>Login</h2>
-        <input placeholder="Email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
-        <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button className="btn dark" onClick={login}>Login</button>
-        <div className="small">If you stay logged out, progress is saved to localStorage on this device.</div>
-        <div className="small">Account creation: teacher can create student users in Supabase Auth (Dashboard → Authentication → Users → Invite user).</div>
+        {isLoggedIn ? (
+          <>
+            <div className="small">Logged in · Progress saved online</div>
+            <button className="btn" onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <input placeholder="Email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
+            <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button className="btn dark" onClick={login}>Login</button>
+            {loginError && <div className="small">{loginError}</div>}
+            <div className="small">If you stay logged out, progress is saved to localStorage on this device.</div>
+            <div className="small">Account creation: teacher can create student users in Supabase Auth (Dashboard → Authentication → Users → Invite user).</div>
+          </>
+        )}
       </div>
 
       <div className="nav">
@@ -194,10 +228,12 @@ export default function Home() {
             <button className="btn dark" onClick={checkAnswer} disabled={busy}>{busy ? 'Checking...' : 'Check'}</button>
             <button className="btn" onClick={() => { setAnswer(''); setFeedback(null); }}>Try again</button>
             <button className="btn" onClick={() => { setIdx((v) => v + 1); setAnswer(''); setFeedback(null); }}>Next</button>
+            {checkError && <div className="small">{checkError}</div>}
 
             {feedback && (
               <div className={`feedback ${feedback.confidence === 'revise' ? 'bad' : ''}`}>
                 <b>Score: {feedback.score}/{feedback.max_marks}</b>
+                {feedback.fallback && <div className="small">Basic feedback shown because AI check was unavailable.</div>}
                 <div>You got:</div>
                 <ul>{feedback.got.map((g) => <li key={g}>{g}</li>)}</ul>
                 <div>Add this:</div>
