@@ -1,0 +1,177 @@
+[
+  {
+    "topic": "Development + LICs",
+    "must": [
+      "Development = improving quality of life, not just money.",
+      "Three dimensions: economic, social and environmental.",
+      "GDP per capita = average economic output or income per person; HDI = income/GNI + education + life expectancy; Gini = inequality.",
+      "LIC incomes can be low because of low-value farming/raw materials, weak infrastructure, conflict and poor governance.",
+      "Countries earn money through exports: crops, minerals, manufactured goods, tourism, education and services."
+    ],
+    "gold": [
+      "Development is a journey, not a label.",
+      "GDP shows money, but HDI shows a wider picture of quality of life.",
+      "Averages can hide inequality inside a country.",
+      "Raw materials usually earn less than manufactured goods, so LICs need value-added exports."
+    ],
+    "data": [
+      "NZ inequality example: richest 10% own 59% of wealth; poorest 50% own 2%.",
+      "Use NZ vs Ethiopia to compare development pathway, indicators and DTM stage."
+    ],
+    "samples": [
+      "HDI is better than GDP because it includes health and education, but it can still hide inequality because it uses national averages.",
+      "LIC income may be low when countries rely on raw materials with low unstable prices and lack infrastructure to process them into higher-value goods."
+    ],
+    "likely": [
+      "Define development and dimensions.",
+      "Why HDI is better than GDP but still limited.",
+      "Why LIC income is low and how exports help.",
+      "Explain physical and human factors affecting development."
+    ]
+  },
+  {
+    "topic": "Food",
+    "must": [
+      "Food security = physical and economic access to enough safe and nutritious food.",
+      "Availability = food exists; access = people can afford/reach it; utilisation = food is safe and nutritious.",
+      "Sahel: low rainfall + overgrazing → bare soil → erosion → desertification → less food.",
+      "Yemen: conflict damages farms, roads, ports and markets, raising prices and causing malnutrition.",
+      "Sudan/South Sudan: conflict + climate shocks cause displacement, failed harvests and food insecurity."
+    ],
+    "gold": [
+      "Food shortage answers need causes, consequences and solutions.",
+      "Conflict disrupts the whole food system: production, transport, markets and aid.",
+      "Technology helps production, but cannot solve hunger without access, peace and affordability."
+    ],
+    "data": [
+      "Yemen: conflict since 2015 is a key cause of food insecurity.",
+      "Use Sahel as the physical-human interaction case.",
+      "Use Sudan/South Sudan as the second food case for breadth."
+    ],
+    "samples": [
+      "In Yemen, conflict damages ports and roads, reducing food supply and increasing prices. This causes malnutrition and disease, lowering quality of life.",
+      "In the Sahel, low rainfall reduces vegetation and overgrazing removes remaining plants, causing erosion and desertification."
+    ],
+    "likely": [
+      "Use Yemen to explain why conflict causes food shortages.",
+      "Climate vs conflict: to what extent?",
+      "Causes, impacts and responses for Sahel/Yemen/Sudan."
+    ]
+  },
+  {
+    "topic": "Water",
+    "must": [
+      "Physical water scarcity = not enough freshwater exists naturally.",
+      "Economic water scarcity = water exists but people lack money, pipes, pumps or infrastructure.",
+      "Clean water reduces disease, improves school/work attendance and supports farming.",
+      "GERD: Ethiopia wants electricity and development; Egypt fears reduced Nile water.",
+      "Aral Sea: river diversion for cotton irrigation caused shrinking, salty soils, fishing collapse and health issues."
+    ],
+    "gold": [
+      "Water supports development through health, education, farming, income and quality of life.",
+      "Water can cause conflict, but also cooperation through data sharing, agreed releases and negotiation.",
+      "Always link water access to disease, school, work or food security."
+    ],
+    "data": [
+      "Water access table examples: Norway 100%, New Zealand 95.6%, Brazil 73.1%, India 62.0%, Nigeria 23.7%, Ethiopia 12.0%.",
+      "GERD is on the Blue Nile in Ethiopia; Egypt is downstream."
+    ],
+    "samples": [
+      "Clean water reduces cholera and diarrhoea, so children miss fewer school days and adults can work more productively.",
+      "GERD creates tension because Ethiopia benefits from hydroelectric power while Egypt fears less water for farming."
+    ],
+    "likely": [
+      "Physical vs economic water scarcity.",
+      "How water improves development.",
+      "GERD conflict/cooperation.",
+      "Use water data to describe a pattern."
+    ]
+  },
+  {
+    "topic": "Trade",
+    "must": [
+      "Export = good/service sold to another country; import = bought from another country.",
+      "Trade can create jobs, export income and tax revenue.",
+      "Trade can increase inequality if wages are low, factories unsafe or LICs export only raw materials.",
+      "Rana Plaza: Bangladesh garment factory complex collapsed in 2013; 1,134 killed and 2,500+ injured.",
+      "DRC/raw materials: resource-rich countries can stay poor if value is captured elsewhere."
+    ],
+    "gold": [
+      "Trade helps development only when jobs are safe, wages fair and profits shared more equally.",
+      "Raw materials earn less than manufactured goods, so value-added exports matter.",
+      "Fast fashion shows that cheap goods can hide human and environmental costs."
+    ],
+    "data": [
+      "Rana Plaza: 24 April 2013; 1,134 killed; 2,500+ injured.",
+      "Post-Rana Plaza inspections and Accord reforms show progress, but worker pay and power remain issues."
+    ],
+    "samples": [
+      "Rana Plaza shows that global trade can create jobs but also expose workers to unsafe conditions when brands demand cheap clothing.",
+      "Raw-material exports can keep LICs poorer because prices are low/unstable and richer countries capture profit through manufacturing."
+    ],
+    "likely": [
+      "Trade always helps development: to what extent?",
+      "Use Rana Plaza to explain progress and remaining inequality.",
+      "Why raw-material exports keep LICs poorer.",
+      "How countries earn money through exports."
+    ]
+  },
+  {
+    "topic": "Health + Malaria",
+    "must": [
+      "Health and development are linked: illness reduces school, work, income and quality of life.",
+      "LICs often face more communicable diseases; HICs often face more non-communicable diseases because people live longer.",
+      "Malaria is spread by female Anopheles mosquitoes.",
+      "Malaria is common in warm, wet areas with stagnant water, poverty, poor housing and limited healthcare.",
+      "Responses: bed nets, indoor spraying, rapid tests, ACT medicines, vaccines, drainage and education."
+    ],
+    "gold": [
+      "Malaria creates a poverty cycle: poor health lowers income, and poverty limits prevention and treatment.",
+      "For malaria, always include causes, consequences and solutions.",
+      "Health patterns reflect development level and healthcare access."
+    ],
+    "data": [
+      "WHO-style global pattern: most malaria burden is in the African Region/Sub-Saharan Africa.",
+      "Under-5 children and pregnant women are especially vulnerable."
+    ],
+    "samples": [
+      "Malaria slows development because children miss school, adults miss work and families spend money on treatment, reducing productivity and income.",
+      "No single malaria solution is enough because mosquitoes, poverty, housing and healthcare all affect transmission."
+    ],
+    "likely": [
+      "Why malaria is common in Sub-Saharan Africa.",
+      "Consequences of malaria for development.",
+      "Evaluate malaria responses.",
+      "Compare LIC and HIC health patterns."
+    ]
+  },
+  {
+    "topic": "PEEL + Source",
+    "must": [
+      "PEEL = Point, Evidence, Explanation, Link.",
+      "Describe = what you see; explain = why; evaluate/to what extent = both sides + judgement.",
+      "Source answers need exact data, place names and pattern/trend language.",
+      "Limitations: one year only, national averages, missing groups/causes/regional detail.",
+      "Every long answer must end with a development link."
+    ],
+    "gold": [
+      "Use because → this means → therefore.",
+      "Never write only ‘it is high’; use numbers and places.",
+      "A strong link mentions health, education, income, jobs, equality or quality of life."
+    ],
+    "data": [
+      "Good source phrase: ‘The highest value is… while the lowest is… showing a clear gap.’",
+      "Good limitation phrase: ‘This is a national average, so it may hide regional or wealth differences.’"
+    ],
+    "samples": [
+      "Point: Clean water improves development. Evidence: Ethiopia has much lower water access than Norway. Explanation: unsafe water increases disease and school absence. Link: therefore water affects health, education and quality of life.",
+      "For ‘to what extent’, write: I partly agree… however… therefore…"
+    ],
+    "likely": [
+      "Write a PEEL paragraph using a case study.",
+      "Use source data to describe a pattern.",
+      "Suggest limitations of a source.",
+      "Improve a weak answer."
+    ]
+  }
+]
