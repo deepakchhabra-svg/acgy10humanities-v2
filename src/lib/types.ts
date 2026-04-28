@@ -7,6 +7,7 @@ export type FeedbackResult = {
   add: string[];
   better_answer: string;
   confidence: Confidence;
+  fallback: boolean;
 };
 
 export type Attempt = {
