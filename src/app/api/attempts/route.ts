@@ -60,17 +60,20 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { error } = await admin.from('attempts').insert({
-    id: body.id,
-    user_id: user.id,
-    qid: body.qid,
-    topic: body.topic,
-    question: body.question,
-    marks: body.marks,
-    student_answer: body.student_answer,
-    feedback: body.feedback,
-    weak_topics: body.feedback?.confidence === 'revise' ? [body.topic] : []
-  });
+  const { error } = await admin.from('attempts').upsert(
+    {
+      id: body.id,
+      user_id: user.id,
+      qid: body.qid,
+      topic: body.topic,
+      question: body.question,
+      marks: body.marks,
+      student_answer: body.student_answer,
+      feedback: body.feedback,
+      weak_topics: body.feedback?.confidence === 'revise' ? [body.topic] : []
+    },
+    { onConflict: 'id' }
+  );
 
   if (error) {
     return NextResponse.json({ error: 'Failed to save attempt' }, { status: 500 });
