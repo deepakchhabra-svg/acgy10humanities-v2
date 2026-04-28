@@ -85,6 +85,11 @@ export default function Home() {
     const supabase = getSupabaseBrowserClient();
     await supabase?.auth.signOut();
     setIsLoggedIn(false);
+    setAttempts([]);
+    setAnswer('');
+    setFeedback(null);
+    setUserEmail('');
+    setPassword('');
   }
 
   async function checkAnswer() {
